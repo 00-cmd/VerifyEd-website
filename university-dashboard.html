@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Dashboard</title>
+  <style>
+    /* ======== RESET STYLES ======== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: #f5f6fa;
+      color: #333;
+    }
+
+    /* ======== HEADER ======== */
+    header {
+      background: #003366;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .admin-profile img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    .admin-profile button {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* ======== LAYOUT ======== */
+    .container {
+      display: flex;
+      flex: 1;
+    }
+
+    /* ======== SIDEBAR ======== */
+    nav {
+      width: 230px;
+      background: #002244;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background: #004080;
+    }
+
+    /* ======== MAIN CONTENT ======== */
+    main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #003366;
+    }
+
+    /* ======== OVERVIEW CARDS ======== */
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-weight: bold;
+    }
+
+    /* ======== TABLE ======== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      margin-top: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f1f1;
+    }
+
+    tr:hover {
+      background: #f9f9f9;
+    }
+
+    /* ======== CLUBS & ACTIVITIES ======== */
+    .club-list, .activity-feed {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .club-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .club-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    /* ======== FOOTER ======== */
+    footer {
+      background: #003366;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======== HEADER ======== -->
+  <header>
+    <h1>National Institute of Technology - University Dashboard</h1>
+    <div class="admin-profile">
+      <img src="https://via.placeholder.com/45" alt="Admin">
+      <span>Head Admin: Dr. Rajesh Kumar</span>
+      <button onclick="alert('Logging out...')">Logout</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- ======== SIDEBAR ======== -->
+    <nav>
+      <a href="#" class="active" onclick="showDashboard()">Dashboard</a>
+      <a href="#" onclick="showStudents()">Students</a>
+      <a href="#" onclick="showClubs()">Clubs & Activities</a>
+      <a href="#" onclick="showDepartments()">Departments</a>
+      <a href="#" onclick="showReports()">Reports</a>
+      <a href="#" onclick="showSettings()">Settings</a>
+    </nav>
+
+    <!-- ======== MAIN CONTENT ======== -->
+    <main id="mainContent">
+      <!-- Default view will load here -->
+    </main>
+  </div>
+
+  <!-- ======== FOOTER ======== -->
+  <footer>
+    © 2025 National Institute of Technology - All Rights Reserved
+  </footer>
+
+  <script>
+    /* ======== DUMMY DATA ======== */
+    const students = [
+      { name: "John Doe", roll: "CS101", department: "Computer Science", year: "2nd Year", status: "Verified" },
+      { name: "Jane Smith", roll: "ME205", department: "Mechanical", year: "3rd Year", status: "Pending" },
+      { name: "Rahul Kumar", roll: "EC301", department: "Electronics", year: "1st Year", status: "Verified" },
+      { name: "Priya Sharma", roll: "CS104", department: "Computer Science", year: "4th Year", status: "Verified" },
+    ];
+
+    const clubs = [
+      { name: "Robotics Club", members: 42 },
+      { name: "Drama Club", members: 30 },
+      { name: "Photography Club", members: 25 },
+      { name: "Sports Club", members: 55 },
+    ];
+
+    const activities = [
+      "John Doe joined Robotics Club",
+      "Drama Club conducted annual fest",
+      "Sports Club hosted Inter-College Tournament",
+      "Photography Club uploaded 50 new photos",
+    ];
+
+    /* ======== FUNCTIONS ======== */
+    function showDashboard() {
+      document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+      event.target.classList.add("active");
+
+      document.getElementById("mainContent").innerHTML = `
+        <h2>Dashboard Overview</h2>
+        <div class="overview">
+          <div class="card">Total Students<br><span style="font-size:22px;">${students.length}</span></div>
+          <div class="card">Total Clubs<br><span style="font-size:22px;">${clubs.length}</span></div>
+          <div class="card">Departments<br><span style="font-size:22px;">8</span></div>
+          <div class="card">Pending Verifications<br><span style="font-size:22px;">2</span></div>
+        </div>
+      `;
+    }
+
+    function showStudents() {
+      document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+      event.target.classList.add("active");
+
+      let tableRows = students.map(s => `
+        <tr>
+          <td>${s.name}</td>
+          <td>${s.roll}</td>
+          <td>${s.department}</td>
+          <td>${s.year}</td>
+          <td>${s.status}</td>
+          <td>
+            <button onclick="alert('Viewing ${s.name}')">View</button>
+            <button onclick="alert('Editing ${s.name}')">Edit</button>
+            <button onclick="alert('Removing ${s.name}')">Remove</button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById("mainContent").innerHTML = `
+        <h2>Student Records</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Roll No</th>
+              <th>Department</th>
+              <th>Year</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function showClubs() {
+      document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+      event.target.classList.add("active");
+
+      let clubList = clubs.map(c => `
+        <div class="club-item">${c.name} - <strong>${c.members} Members</strong></div>
+      `).join('');
+
+      let activityList = activities.map(a => `
+        <div class="activity-item">${a}</div>
+      `).join('');
+
+      document.getElementById("mainContent").innerHTML = `
+        <h2>Clubs & Activities</h2>
+        <div class="club-list">
+          <h3>Clubs</h3>
+          ${clubList}
+        </div>
+        <div class="activity-feed">
+          <h3>Recent Activities</h3>
+          ${activityList}
+        </div>
+      `;
+    }
+
+    function showDepartments() {
+      document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+      event.target.classList.add("active");
+
+      document.getElementById("mainContent").innerHTML = `
+        <h2>Departments</h2>
+        <p>List of all active departments:</p>
+        <ul>
+          <li>Computer Science & Engineering</li>
+          <li>Mechanical Engineering</li>
+          <li>Electrical Engineering</li>
+          <li>Electronics & Communication Engineering</li>
+          <li>Civil Engineering</li>
+          <li>Chemical Engineering</li>
+          <li>Architecture</li>
+          <li>Mathematics & Computing</li>
+        </ul>
+      `;
+    }
+
+    function showReports() {
+      document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+      event.target.classList.add("active");
+
+      document.getElementById("mainContent").innerHTML = `
+        <h2>Reports</h2>
+        <p>Download or view various reports related to students and activities.</p>
+        <button onclick="alert('Downloading Student Report...')">Download Student Report</button>
+        <button onclick="alert('Downloading Club Report...')">Download Club Report</button>
+      `;
+    }
+
+    function showSettings() {
+      document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+      event.target.classList.add("active");
+
+      document.getElementById("mainContent").innerHTML = `
+        <h2>Settings</h2>
+        <p>Manage account, privacy, and other settings here.</p>
+      `;
+    }
+
+    /* ======== DEFAULT LOAD ======== */
+    window.onload = showDashboard;
+  </script>
+
+</body>
+</html>
