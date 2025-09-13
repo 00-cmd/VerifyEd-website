@@ -3,184 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VerifyED - Loading</title>
+  <title>Loading - VerifyED</title>
   <style>
-    /* ===== RESET ===== */
+    /* Reset default styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
     }
 
     body {
+      background-color: #2e6f75; /* matches your logo background */
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       overflow: hidden;
-      background: radial-gradient(circle at 30% 30%, #002e6e, #001b40);
-      position: relative;
-      perspective: 1000px;
+      font-family: Arial, sans-serif;
     }
 
-    /* ===== Moving Background Gradient ===== */
-    .background {
-      position: absolute;
-      width: 300%;
-      height: 300%;
-      background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.15) 0%, transparent 40%),
-                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.15) 0%, transparent 40%);
-      animation: moveBackground 15s linear infinite;
-      z-index: 1;
-    }
-
-    @keyframes moveBackground {
-      0% { transform: translate(0, 0); }
-      50% { transform: translate(-80px, -80px); }
-      100% { transform: translate(0, 0); }
-    }
-
-    /* ===== Particles ===== */
-    .particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 50%;
-      animation: floatParticles 6s infinite ease-in-out;
-    }
-
-    @keyframes floatParticles {
-      0% { transform: translateY(0) scale(0.8); opacity: 0.7; }
-      50% { transform: translateY(-40px) scale(1); opacity: 1; }
-      100% { transform: translateY(0) scale(0.8); opacity: 0.7; }
-    }
-
-    /* ===== Loader Container ===== */
+    /* Center container */
     .loader-container {
       text-align: center;
-      color: white;
-      z-index: 10;
-      animation: popIn 1.5s ease forwards;
-      transform: translateZ(50px) scale(0.8);
+      opacity: 0;
+      transform: scale(0.8);
+      animation: fadeInScale 1.5s ease forwards;
     }
 
-    @keyframes popIn {
-      0% { opacity: 0; transform: translateY(30px) scale(0.8) rotateX(20deg); }
-      60% { opacity: 1; transform: translateY(0) scale(1.05) rotateX(0deg); }
-      100% { transform: translateY(0) scale(1) rotateX(0deg); }
+    /* Image styling */
+    .loader-container img {
+      width: 180px;
+      height: auto;
+      animation: pulse 2s infinite ease-in-out;
     }
 
-    /* Main Logo Text */
-    .loader-container h1 {
-      font-size: 3.8rem;
-      letter-spacing: 3px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, #00e1ff, #00ffc8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: textGlow 3s ease-in-out infinite;
+    /* Fade-in + slight zoom */
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
-    @keyframes textGlow {
+    /* Pulse animation */
+    @keyframes pulse {
       0%, 100% {
-        text-shadow: 0 0 15px rgba(0,255,204,0.6), 0 0 30px rgba(0,255,204,0.4);
+        transform: scale(1);
       }
       50% {
-        text-shadow: 0 0 25px rgba(0,255,204,1), 0 0 50px rgba(0,255,204,0.8);
+        transform: scale(1.05);
       }
     }
 
-    /* Tagline */
-    .loader-container p {
-      font-size: 1.2rem;
-      opacity: 0;
-      animation: fadeInTagline 2s ease-in-out forwards;
-      animation-delay: 0.8s;
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 30px;
-    }
-
-    @keyframes fadeInTagline {
-      0% { opacity: 0; transform: translateY(15px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== Progress Bar ===== */
-    .progress-bar {
-      width: 280px;
-      height: 10px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 20px;
-      overflow: hidden;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .progress {
-      height: 100%;
-      width: 0;
-      background: linear-gradient(90deg, #00ffcc, #00c3ff, #00ffcc);
-      background-size: 200% 100%;
-      animation: loadProgress 3s ease-in-out forwards, glowMove 2s infinite linear;
-    }
-
-    @keyframes loadProgress {
-      0% { width: 0; }
-      100% { width: 100%; }
-    }
-
-    @keyframes glowMove {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-
-    /* Fade Out Animation for Entire Screen */
+    /* Fade out before redirect */
     .fade-out {
-      opacity: 0;
-      transform: scale(0.9);
-      transition: all 1s ease-in-out;
+      animation: fadeOut 1s ease forwards;
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Background Layers -->
-  <div class="background"></div>
-
-  <!-- Floating Particles -->
-  <script>
-    for (let i = 0; i < 20; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      particle.style.left = `${Math.random() * 100}vw`;
-      particle.style.top = `${Math.random() * 100}vh`;
-      particle.style.animationDelay = `${Math.random() * 5}s`;
-      document.body.appendChild(particle);
-    }
-  </script>
-
-  <!-- Loader Content -->
   <div class="loader-container" id="loader">
-    <h1>VerifyED</h1>
-    <p>Secure. Verify. Trust.</p>
-    <div class="progress-bar">
-      <div class="progress"></div>
-    </div>
+    <img src="image.jpg" alt="VerifyED Logo " style="display: flex; image-orientation: flip; width: 300px;">
   </div>
 
   <script>
-    // Fade out and redirect after loading
+    // Wait 3 seconds, fade out, then redirect
     setTimeout(() => {
       const loader = document.getElementById('loader');
       loader.classList.add('fade-out');
 
       setTimeout(() => {
         window.location.href = "index.html"; // Redirect to landing page
-      }, 1000);
-    }, 3200); // 3.2s total duration
+      }, 1000); // Wait for fade-out animation
+    }, 3000);
   </script>
 </body>
 </html>
